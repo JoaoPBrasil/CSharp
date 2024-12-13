@@ -17,12 +17,13 @@ namespace Parte1
             switch (mod)
             {
                 case 1:
-                    Console.Write("Insira o valor da variável A: ");
+                    /*Console.Write("Insira o valor da variável A: ");
                     int a1 = int.Parse(Console.ReadLine());
-
                     Console.Write("Insira o valor da variável B: ");
-                    int b1 = int.Parse(Console.ReadLine());
+                    int b1 = int.Parse(Console.ReadLine());*/
 
+                    int a1 = 10;
+                    int b1 = 20;
                     int c1 = 0; // Inicializa a variável c
 
                     int[] v1 = new int[a1]; // Inicializa o vetor  v 
