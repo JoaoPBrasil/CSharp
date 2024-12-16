@@ -20,7 +20,7 @@ namespace Teste
 
             Console.WriteLine("====================================");
 
-            decimal rG = 0m; // Rendimento do mês
+            decimal rG = 0m;
             decimal rA = valorPresente;
 
             for (int y = 1; y <= periodoMes; y++)
