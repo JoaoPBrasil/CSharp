@@ -17,6 +17,7 @@ namespace Parte1
             switch (mod)
             {
                 case 1:
+                {
                     /*Console.Write("Insira o valor da variável A: ");
                     int a1 = int.Parse(Console.ReadLine());
                     Console.Write("Insira o valor da variável B: ");
@@ -40,8 +41,10 @@ namespace Parte1
                     Console.WriteLine($"O quarto item do vetor é o número: {v1[3]}");
 
                     break;
+                }
 
                 case 2:
+                {
                     /*Console.Write("Informe o valor da variável A: "); 
                     int a = int.Parse(Console.ReadLine());*/
 
@@ -62,9 +65,11 @@ namespace Parte1
                     Console.WriteLine(a2);
 
                     break;
+                }
 
                 case 3:
-
+                {
+                    
                     /* Console.WriteLine("Informe um valor para a variável a: ");
                     int a = int.Parse(Console.ReadLine());
                     Console.WriteLine("Informe um valor para a variável b: ");
@@ -84,6 +89,7 @@ namespace Parte1
                     }
 
                     break;
+                }
             }
         }
     }
