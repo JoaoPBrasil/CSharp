@@ -1,4 +1,17 @@
-            /*Console.WriteLine("Vamos calcular o Rendimento Futuro! ");
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Teste3
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {            
+
+            Console.WriteLine("Vamos calcular o Rendimento Futuro! ");
             Console.WriteLine("=======================================\n");
 
             Console.WriteLine("Caso 1:");
@@ -132,3 +145,6 @@
             // Valor que aparecerá na conta após todo o investimento
             double valorFinal3 = r3;
             Console.WriteLine($"Valor Final na Conta Caso 3: R${valorFinal3:F2}"); // Valor final na conta*/
+        }
+    }
+}
