@@ -23,11 +23,12 @@ namespace JurosCompostos
             double saldoAnterior = ValorInicial;  
             double rendimento = 0;  
 
-            Console.WriteLine("\nMês\tTaxa de Juros (%)\tValor Acumulado\tRendimento\tSaldo Líquido");
+            Console.WriteLine("\nMês\tTaxa de Juros (%)\tValor Investido\t\tValor Acumulado\t\tRendimento\t\tSaldo Líquido");
+            Console.WriteLine("--------------------------------------------------------------------------------------------");
 
             for (int i = 1; i <= MesesCompletos; i++)
             {
-                saldoAnterior = saldoAtual;  
+                saldoAnterior = saldoAtual; 
 
                 saldoAtual = saldoAtual * (1 + TaxaJuros / 100);
 
@@ -40,11 +41,11 @@ namespace JurosCompostos
                         Console.WriteLine($"Saque no mês {i} não pode ser realizado, valor superior ao acumulado!");
                         break; 
                     }
-                    saldoAtual -= saque;
-                    Console.WriteLine($"Saque de R$ {saque:C2} realizado no mês {i}");
+                    saldoAtual -= saque;  
+                    Console.WriteLine($"\nSaque de R$ {saque:C2} realizado no mês {i}\n");
                 }
 
-                Console.WriteLine($"{i}\t{TaxaJuros:F2}\t\t{saldoAtual:C2}\t\t{rendimento:C2}\t\t{saldoAtual:C2}");
+                Console.WriteLine($"{i,-8}{$"{TaxaJuros}%",-18}{ValorInicial,-20:C2}{saldoAtual,-20:C2}{rendimento,-20:C2}{saldoAtual,-20:C2}");
             }
 
             if (DiasAdicionais > 0)
