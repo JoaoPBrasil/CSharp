@@ -1,112 +1,89 @@
 using System;
 
-class Program
+namespace JurosCompostos
 {
-    static void Main()
+    // Classe que representa o Investimento
+    public class Investimento
     {
-        Console.WriteLine("Vamos calcular os Valores Futuros!");
-        int numeroCasos = 3;
+        public double ValorInicial { get; set; }
+        public double TaxaJuros { get; set; }
+        public int PeriodoMeses { get; set; }
 
-        for (int i = 0; i < numeroCasos; i++)
+        // Construtor para inicializar os valores
+        public Investimento(double valorInicial, double taxaJuros, int periodoMeses)
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine($"\nCaso {i + 1}:");
-
-            // Recebendo dados do usuário
-            Console.Write("\nInforme o valor inicial: R$");
-            double valorInicial = double.Parse(Console.ReadLine());
-
-            Console.Write("Informe a taxa de juros (%): ");
-            double taxaJuro = double.Parse(Console.ReadLine()) / 100;
-
-            Console.Write("Informe o período em meses (Caso contenham dias insira o número com vírgula): ");
-            double periodoMes = double.Parse(Console.ReadLine());
-
-            Console.Write("Você deseja fazer o resgate no quinto mês? (s/n): ");
-            string resgatarNoQuintoMes = Console.ReadLine().ToLower();
-
-            int mesResgate = 5;
-            if (resgatarNoQuintoMes != "s")
-            {
-                Console.Write("Em qual mês você deseja realizar o resgate: ");
-                mesResgate = int.Parse(Console.ReadLine());
-            }
-
-            Investimento investimento = new Investimento(valorInicial, taxaJuro, periodoMes, mesResgate);
-
-            investimento.ExibirTabelaResgates();
-            Console.WriteLine();
-        }
-    }
-}
-
-class Investimento
-{
-    private double ValorInicial { get; set; }
-    private double TaxaJuro { get; set; }
-    private double PeriodoMes { get; set; }
-    private int MesResgate { get; set; }
-
-    public Investimento(double valorInicial, double taxaJuro, double periodoMes, int mesResgate)
-    {
-        ValorInicial = valorInicial;
-        TaxaJuro = taxaJuro;
-        PeriodoMes = periodoMes;
-        MesResgate = mesResgate;
-    }
-
-    public void ExibirTabelaResgates()
-    {
-        double saldoLiquido = ValorInicial;
-        double rendimentoMensalAcumulado = 0;
-        double rendimentoRestante = 0;
-        double rendimentoAnterior = 0;
-
-        Console.WriteLine("\nTabela de Resgates:");
-        Console.WriteLine("-----------------------------------------------------------");
-        Console.WriteLine($"{"Mês",-5} {"Valor Presente Investido",-25} {"Rendimento Mensal",-20} {"Saldo Liquido Restante",-25} {"Rendimento Restante",-20}");
-
-        for (int mes = 1; mes <= (int)PeriodoMes; mes++)
-        {
-            // Calcular o valor final do mês
-            double valorFinalMes = saldoLiquido * Math.Pow(1 + TaxaJuro, mes);
-            double rendimentoAtual = valorFinalMes - saldoLiquido;
-
-            if (mes < MesResgate)
-            {
-                // Exibindo os dados até o mês de resgaste
-                Console.WriteLine($"{mes,-5} {1000,-25:F2} {rendimentoAtual,-20:F2} {valorFinalMes,-25:F2} {rendimentoRestante,-20:F2}");
-                rendimentoMensalAcumulado = rendimentoAtual;
-                rendimentoRestante = rendimentoAtual;
-                rendimentoAnterior = rendimentoAtual;
-            }
-            else if (mes == MesResgate)
-            {
-                // Exibe a mensagem de saque realizado no mês de resgaste
-                Console.WriteLine($"{mes,-5} {"Saque realizado",-25} {"Saque realizado",-20} {"Saque realizado",-25} {"Saque realizado",-20}");
-                saldoLiquido = ValorInicial; // Reinicia o saldo
-                rendimentoRestante = 0; // O rendimento restante é zero após o saque
-            }
-            else
-            {
-                // Após o resgaste, reinicia os valores dos meses
-                int mesCiclo = (mes - MesResgate) % MesResgate; // Calcula o mês no ciclo (mês 6 = mês 1, mês 7 = mês 2, etc.)
-                if (mesCiclo == 0) mesCiclo = MesResgate; // Se o cálculo der 0, significa que deve reiniciar o ciclo.
-
-                // Recalcula o rendimento para os meses após o saque
-                double rendimentoRestaurado = ValorInicial * TaxaJuro;
-
-                // Exibe os dados após o reinício do saldo
-                Console.WriteLine($"{mes,-5} {1000,-25:F2} {rendimentoRestaurado,-20:F2} {1000,-25:F2} {rendimentoRestante,-20:F2}");
-                saldoLiquido += rendimentoRestaurado; // Atualiza o saldo após o rendimento
-            }
+            ValorInicial = valorInicial;
+            TaxaJuros = taxaJuros;
+            PeriodoMeses = periodoMeses;
         }
 
-        // Exibindo o valor final após o período total
-        double valorFinalTotal = saldoLiquido * Math.Pow(1 + TaxaJuro, PeriodoMes);
-        Console.WriteLine($"\nValor Inicial: R${ValorInicial:F2}");
-        Console.WriteLine($"Rendimento Total: R${valorFinalTotal - ValorInicial:F2}");
-        Console.WriteLine($"Valor Final após {PeriodoMes} meses: R${valorFinalTotal:F2}");
-        Console.WriteLine($"Rendimento Resgatado: R${rendimentoAnterior:F2}");
+        // Método para calcular o valor a cada mês, considerando um saque
+        public void ExibirTabelaComSaque(double saque, int mesSaque)
+        {
+            double saldoAtual = ValorInicial;  // Saldo inicial
+
+            Console.WriteLine("\nMês\tTaxa de Juros (%)\tValor Acumulado\tSaldo Líquido");
+
+            for (int i = 1; i <= PeriodoMeses; i++)
+            {
+                // Calcula o valor acumulado com juros compostos
+                saldoAtual = saldoAtual * (1 + TaxaJuros / 100);
+
+                // Realiza o saque no mês escolhido
+                if (i == mesSaque)
+                {
+                    if (saque > saldoAtual)
+                    {
+                        Console.WriteLine($"Saque no mês {i} não pode ser realizado, valor superior ao acumulado!");
+                        break; // Se o saque for maior que o saldo, interrompe a execução
+                    }
+                    saldoAtual -= saque;  // Subtrai o valor do saque
+                    Console.WriteLine($"Saque de R$ {saque:C2} realizado no mês {i}");
+                }
+
+                // Exibe as informações de cada mês
+                Console.WriteLine($"{i}\t{TaxaJuros:F2}\t\t{saldoAtual:C2}\t\t{saldoAtual:C2}");
+            }
+        }
+    }
+
+    // Classe principal que executa o programa
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Entrada de dados
+            Console.Write("Digite o valor inicial do investimento: ");
+            double valorInicial = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Digite a taxa de juros (% ao mês): ");
+            double taxaJuros = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Digite o período do investimento em meses: ");
+            int periodoMeses = Convert.ToInt32(Console.ReadLine());
+
+            // Entrada do saque
+            Console.Write("Digite o valor do saque: ");
+            double saque = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Digite o mês para realizar o saque (1 a " + periodoMeses + "): ");
+            int mesSaque = Convert.ToInt32(Console.ReadLine());
+
+            // Verifica se o mês do saque é válido
+            if (mesSaque < 1 || mesSaque > periodoMeses)
+            {
+                Console.WriteLine("Mês inválido. O mês deve estar entre 1 e " + periodoMeses);
+                return; // Interrompe o programa em caso de mês inválido
+            }
+
+            // Criando o objeto Investimento com os dados recebidos
+            Investimento investimento = new Investimento(valorInicial, taxaJuros, periodoMeses);
+
+            // Exibindo a tabela com o valor acumulado e saldo líquido mês a mês, considerando o saque
+            investimento.ExibirTabelaComSaque(saque, mesSaque);
+
+            // Pausar para ver o resultado
+            Console.ReadLine();
+        }
     }
 }
